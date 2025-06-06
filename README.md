@@ -1,6 +1,6 @@
 # IPMA Weather API 🇵🇹
 
-API REST para previsão do tempo em Portugal, com dados públicos fornecidos pelo IPMA (Instituto Português do Mar e da Atmosfera).
+REST API para previsão do tempo em Portugal, com dados públicos fornecidos pelo IPMA (Instituto Português do Mar e da Atmosfera).
 
 > Projetado para ser simples, acessível e utilizável tanto por pessoas quanto por sistemas automatizados.
 
@@ -12,6 +12,7 @@ API REST para previsão do tempo em Portugal, com dados públicos fornecidos pel
 Previsão técnica completa para uma localidade/distrito.
 - **Parâmetros**: `distrito`, `localidade`, `format=json|csv`
 - **Exemplo**: `/previsao?distrito=Lisboa&localidade=Lisboa`
+- 🔄 Usa cache local com SQLite para evitar chamadas repetidas à API externa.
 
 ### `/previsao-usuario`
 Versão amigável da previsão, com títulos compreensíveis e dados simplificados.
@@ -26,6 +27,14 @@ Mostra informações sobre o tempo de execução da API, itens em cache e arquiv
 
 ### `/docs`
 Interface interativa de documentação Swagger para teste e exploração da API.
+
+---
+
+## 🗃️ Cache em SQLite
+
+A API utiliza cache local persistente em SQLite. As previsões são armazenadas por `distrito`, `localidade` e `data`, e são reaproveitadas automaticamente em chamadas subsequentes, otimizando a performance.
+
+Local: `data/ipma.db`
 
 ---
 
@@ -74,13 +83,15 @@ ipma_weather_api/
 │   ├── scraper.py
 │   ├── logger.py
 │   ├── localidade_map.py
+│   ├── db.py
 │   └── static/
 │       └── favicon.ico
-├── tests/
-│   └── test_api.py
 ├── data/
+│   ├── ipma.db
 │   ├── cache/
 │   └── logs/
+├── tests/
+│   └── test_api.py
 ├── Dockerfile
 ├── requirements.txt
 ├── Makefile

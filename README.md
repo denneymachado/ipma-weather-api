@@ -2,7 +2,7 @@
 
 API REST para previsão do tempo em Portugal, com dados públicos fornecidos pelo IPMA (Instituto Português do Mar e da Atmosfera).
 
-> Projetado para ser simples, acessível e utilizável por humanos e sistemas automatizados.
+> Projetado para ser simples, acessível e utilizável tanto por pessoas quanto por sistemas automatizados.
 
 ---
 
@@ -97,8 +97,7 @@ Este projeto está licenciado sob a [MIT License](https://opensource.org/license
 
 ---
 
-## 📬 Contato
+## 📬 Contacto
 
 Desenvolvido por: **Denney Machado**  
-Email: denneyjocsa@gmail.com
 LinkedIn: https://www.linkedin.com/in/denneymachado/

@@ -9,6 +9,10 @@ import time
 from app.scraper import get_forecast, get_forecast_humanized
 from app.logger import logger
 from app.localidade_map import LOCALIDADE_MAP
+from app.db import init_db, get_cached_forecast, cache_forecast
+from datetime import date
+
+init_db()
 
 app = FastAPI(
     title="IPMA Weather API",
@@ -46,7 +50,14 @@ async def favicon():
 @app.get("/previsao", summary="Previsão técnica", description="Retorna previsão detalhada para programadores, pesquisadores e sistemas.")
 def previsao(distrito: str, localidade: str, format: str = Query("json", enum=["json", "csv"])):
     try:
-        data = get_forecast(distrito, localidade)
+        hoje = str(date.today())
+        cache = get_cached_forecast(distrito, localidade, hoje)
+        
+        if cache:
+            data = cache
+        else:
+            data = get_forecast(distrito, localidade)
+            cache_forecast(distrito, localidade, hoje, data)
 
         if format == "csv":
             output = io.StringIO()
@@ -60,7 +71,7 @@ def previsao(distrito: str, localidade: str, format: str = Query("json", enum=["
     except Exception as e:
         logger.error(f"Erro em /previsao: {e}")
         return JSONResponse(status_code=400, content={"detail": str(e)})
-
+    
 @app.get("/previsao-usuario", summary="Previsão para meros mortais", description="Retorna previsão com variáveis simples para usuários comuns.")
 def previsao_usuario(distrito: str, localidade: str, format: str = Query("json", enum=["json", "csv"])):
     try:

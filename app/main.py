@@ -64,7 +64,12 @@ def previsao(distrito: str, localidade: str, format: str = Query("json", enum=["
             writer = csv.DictWriter(output, fieldnames=data["previsao"][0].keys())
             writer.writeheader()
             writer.writerows(data["previsao"])
-            return Response(content=output.getvalue(), media_type="text/csv")
+            return Response(
+                content=output.getvalue(),
+                media_type="text/csv",
+                headers={"Content-Disposition": "attachment; filename=previsao.csv"}
+            )
+
 
         return JSONResponse(content=data)
 
@@ -82,7 +87,12 @@ def previsao_usuario(distrito: str, localidade: str, format: str = Query("json",
             writer = csv.DictWriter(output, fieldnames=data["Previsão"][0].keys())
             writer.writeheader()
             writer.writerows(data["Previsão"])
-            return Response(content=output.getvalue(), media_type="text/csv")
+            return Response(
+                content=output.getvalue(),
+                media_type="text/csv",
+                headers={"Content-Disposition": "attachment; filename=previsao.csv"}
+            )
+
 
         return JSONResponse(content=data)
 

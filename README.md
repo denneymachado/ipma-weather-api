@@ -95,7 +95,6 @@ ipma_weather_api/
 ├── Dockerfile
 ├── requirements.txt
 ├── Makefile
-├── pytest.ini
 ├── README.md
 └── .gitignore
 ```
